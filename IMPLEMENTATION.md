@@ -1,61 +1,17 @@
-# IMPLEMENTATION.md
+## Setting up Keyboard Hotkeys for live.Listen Function
 
-## PocketSphinx Instructions
-PocketSphinx is a lightweight speech recognition engine that supports various language models. Follow these steps to install and set up PocketSphinx:
+To configure a keyboard shortcut that activates the live.Listen function, follow these steps:
 
-1. **Install Dependencies**: 
-   ```bash
-   sudo apt-get install libpulse-dev python3-pip build-essential swig
-   ```
-2. **Install PocketSphinx**: 
-   ```bash
-   pip install pocketsphinx
-   ```
+### **Steps for GNOME Desktop Environment:**
+1. Open **Settings** and navigate to the **Keyboard** section.
+2. Scroll down and click **Custom Shortcuts**.
+3. Click **Add Custom Shortcut**, then provide the following details:
+   - **Name**: live.Listen Activation
+   - **Command**: `/path/to/speech-to-text.sh`
+     (Replace `/path/to/` with the full path to the `speech-to-text.sh` script.)
+4. Set a keyboard shortcut of your choice, such as `Ctrl+Alt+L`. Ensure it doesn't conflict with any existing shortcuts.
 
-3. **Setting up the Acoustic Model**:
-   - Download language model and dictionary suitable for your needs.
-   - These can be specified during runtime in your code or scripts.
-   - **Detailed Steps**:
-     - **Download Pre-trained Models**:
-       Visit [CMUSphinx Downloads](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/) to download.
-     - **Install the Models**:
-       Extract the downloaded files to a directory, such as `/usr/local/share/pocketsphinx/model`.
-       Example:
-       ```bash
-       mkdir -p ~/pocketsphinx/models
-       cp -r <downloaded-files> ~/pocketsphinx/models/
-       ```
-     - **Verify the Models**:
-       ```bash
-       pocketsphinx_continuous -hmm ~/pocketsphinx/models/en-us -lm ~/pocketsphinx/models/en-us.lm.bin -dict ~/pocketsphinx/models/cmudict-en-us.dict -inmic yes
-       ```
-       Speak into your microphone to test the recognition.
-     - **Custom Models** (Optional):
-       Use CMU tools to create custom `.lm` and `.dict`. Refer to [CMU LM Toolkit](https://cmusphinx.github.io/wiki/tutoriallm/).
+### **Verification:**
+- Press the shortcut key to activate the script. PocketSphinx will start listening for command inputs and trigger actions using xdotool.
 
-## xdotool Setup
-`xdotool` is a command-line tool used to simulate keyboard input and mouse activity. This can be useful to process speech commands to control your machine.
-
-1. Install `xdotool`:
-   ```bash
-   sudo apt-get install xdotool
-   ```
-2. Verify installation:
-   Run `xdotool -v` to confirm it is installed successfully.
-
-## speech-to-text.sh Script
-The `speech-to-text.sh` script is designed to utilize PocketSphinx for real-time transcription and interact with `xdotool` for command execution based on the recognized text.
-
-1. **Prerequisites**: Ensure both PocketSphinx and xdotool are installed.
-
-2. **Usage**:
-   - Open the script and confirm the paths to language models, acoustic models, and dictionary files.
-   - Run the script using:
-     ```bash
-     ./speech-to-text.sh
-     ```
-   - The script will listen for speech input, transcribe it using PocketSphinx, and trigger `xdotool` commands for recognized actions.
-
----
-
-This integration focuses on using only open-source tools (PocketSphinx and xdotool) for real-time, command-driven speech-to-text solutions.
+This step ensures quick access to the live.Listen functionality without manually executing the script each time.
