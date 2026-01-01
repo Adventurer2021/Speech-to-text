@@ -1,86 +1,43 @@
-# Setting Up PocketSphinx with Keyboard Hotkey Integration
+# IMPLEMENTATION.md
 
-This guide contains detailed instructions for implementing `PocketSphinx`, a lightweight speech recognition engine, along with keyboard hotkey functionality to toggle the recognition mode.
+This setup is specifically designed for AlmaLinux version 10 and supports using a webcam microphone USB attached to the system.
 
-## Prerequisites
-Ensure the following are installed on your system:
-- Python 3.8 or higher
-- Internet connection for package downloads
-- System dependencies for building PocketSphinx
+## Components Required for Listening Mode
 
-## Step 1: Install System Dependencies
+To activate the listening mode, the following components and configurations are necessary:
 
-Install the necessary system packages for PocketSphinx and Python:
-```bash
-sudo apt-get update
-sudo apt-get install -y python3 python3-pip swig libpulse-dev build-essential
-```
+### Hardware Requirements:
+1. A computing environment with AlmaLinux 10 installed.
+2. A functional webcam with microphone (USB-compatible).
+3. A keyboard to trigger the listening mode.
 
-## Step 2: Install PocketSphinx
+### Software Configuration:
+1. Ensure that the necessary drivers for the USB webcam microphone are installed on AlmaLinux 10.
+2. Clone the repository using the following command:
+   ```
+git clone https://github.com/Adventurer2021/Speech-to-text.git
+   ```
+3. Navigate to the project directory:
+   ```
+cd Speech-to-text
+   ```
+4. Follow any other installation requirements mentioned in the `README.md` file of this repository to configure necessary dependencies.
 
-Install the PocketSphinx library via pip:
-```bash
-pip install pocketsphinx
-```
+### Triggering the Listening Mode
+To activate the listening mode, perform the following steps:
 
-## Step 3: Set Up the Speech-to-Text Script
+1. **Identify the Hotkey Combination:**
+   The default hotkey combination configured for this setup is `Ctrl + Shift + L`.
 
-Create a new file called `main.py` in your project directory with the following content:
+2. **Execute the Application:**
+   Run the application using:
+   ```
+python3 speech_to_text.py
+   ```
 
-```python
-import os
-from pocketsphinx import LiveSpeech
-from pynput import keyboard
+3. **Activate Listening:**
+   Once the application starts, press `Ctrl + Shift + L` simultaneously to activate the listening mode.
+4. **Verify Activation:**
+   Check the logs or ensure visual/audio indicators confirm that the application has entered the active listening mode.
 
-# Initialize Speech Recognition
-speech = LiveSpeech(lm=False, keyphrase='start listening', kws_threshold=1e-20)
-
-# Function to toggle listening mode
-listening = False
-
-def toggle_listen():
-    global listening
-    listening = not listening
-    if listening:
-        print("Listening for speech...")
-    else:
-        print("Stopped listening.")
-
-# Keyboard hotkey functionality
-def on_hotkey_press(key):
-    try:
-        if key.char == 'l':  # Press 'l' to toggle listening
-            toggle_listen()
-    except AttributeError:
-        pass
-
-# Listener for the keyboard
-with keyboard.Listener(on_press=on_hotkey_press) as hotkey_listener:
-    print("Press 'l' to toggle the speech recognition.")
-    try:
-        for phrase in speech:
-            if listening:
-                print(f"Recognized: {phrase}")
-    except KeyboardInterrupt:
-        print("Exiting...")
-```
-
-## Step 4: Test the Implementation
-
-Run the script:
-```bash
-python3 main.py
-```
-
-- Press `'l'` on your keyboard to toggle listening mode.
-- Speak into your microphone and observe text output when in listening mode.
-
-## Step 5: Customize as Required
-
-- Change the `keyphrase` in `LiveSpeech` initialization to match your preferred activation phrase (e.g. `'hello'`).
-- Use a different hotkey by modifying `key.char` in the `on_hotkey_press` function (e.g., `'k'`, `'h'`).
-- Adjust the `kws_threshold` parameter to control the sensitivity of speech recognition.
-
----
-
-This concludes the setup for PocketSphinx with hotkey integration! Feel free to experiment and modify as per your needs.
+**Note:** Make sure the webcam microphone is plugged in and functioning correctly prior to starting the application.
