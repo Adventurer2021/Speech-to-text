@@ -1,51 +1,78 @@
-### Mozilla DeepSpeech Installation Instructions
+# PocketSphinx Installation and Configuration Guide
 
-1. **Install Prerequisites**:
+This guide provides step-by-step instructions to set up PocketSphinx for speech-to-text processing, including installing required dependencies, configuring the acoustic model, and setting up system hotkeys through xdotool to activate the `live.Listen` function.
+
+## Prerequisites
+- A Linux environment (Debian-based distributions recommended).
+- Python 3 installed.
+
+## Step 1: Install PocketSphinx and Its Dependencies
+Execute the following commands to install PocketSphinx and its Python bindings:
+
+```bash
+sudo apt update
+sudo apt install -y pocketsphinx python3-pip build-essential swig
+pip3 install pocketsphinx
+```
+
+## Step 2: Set Up the Acoustic Model
+The acoustic model provides the necessary files for PocketSphinx to perform speech recognition. Follow these steps:
+
+1. Download the pre-trained English acoustic model from CMU's official website:
    ```bash
-   sudo dnf install git python3 python3-pip
-   pip install deepspeech
+   wget https://github.com/cmusphinx/pocketsphinx/releases/download/v5.0/en-us-pocketsphinx-v5.0.tar.gz
    ```
 
-2. **Download Pre-Trained Models**:
+2. Extract the tarball and move it to the desired directory:
    ```bash
-   wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm
-   wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
+   tar -xzf en-us-pocketsphinx-v5.0.tar.gz
+   mv en-us /usr/local/share/pocketsphinx/model/en-us
    ```
 
-3. **Verify Installation**:
-   Run `deepspeech` help to confirm installation:
+3. Confirm the model is installed:
    ```bash
-   deepspeech --help
+   ls /usr/local/share/pocketsphinx/model/en-us
    ```
 
-4. **Test Speech-to-Text Processing**:
-   ```bash
-   deepspeech --model deepspeech-0.9.3-models.pbmm \
-              --scorer deepspeech-0.9.3-models.scorer \
-              --audio my-audio-file.wav
-   ```
-   Replace `my-audio-file.wav` with your audio file.
+## Step 3: Install xdotool
+`xdotool` is a utility that simulates keyboard inputs for hotkey functionality. Install it using the following command:
 
-5. **Set Up Microphone Input**:
-   Install `pyaudio`:
+```bash
+sudo apt install -y xdotool
+```
+
+## Step 4: Configure Hotkeys to Activate `live.Listen`
+You can use `xdotool` and a custom bash script to simulate activation of the `live.Listen` function programmatically. Follow these steps to configure it:
+
+### Create a Bash Script
+1. Create a script named `activate_listen.sh`:
    ```bash
-   pip install pyaudio
+   nano activate_listen.sh
    ```
+
+2. Paste the following content into the script:
+   ```bash
+   #!/bin/bash
+   # This script activates the live.Listen function via xdotool
+   xdotool key ctrl+alt+l
+   ```
+
+3. Save the file and make it executable:
+   ```bash
+   chmod +x activate_listen.sh
+   ```
+
+### Set Up the Hotkey Configuration
+1. Open your desktop environment's keyboard shortcut settings.
+2. Add a custom shortcut:
+   - Command: `/path/to/activate_listen.sh`
+   - Hotkey: `Ctrl + Alt + L`
+
+3. Apply the changes.
+
+### Example Verification
+Test the setup by pressing `Ctrl + Alt + L`. If configured properly, the script will simulate activation of the `live.Listen` function using the `xdotool` key sequence.
 
 ---
 
-### OpenAI Whisper Installation Instructions
-
-1. **Install Whisper Package**:
-   ```bash
-   pip install openai-whisper
-   ```
-
-2. **Test Speech-to-Text**:
-   Use its Python interface or CLI:
-   ```bash
-   whisper audio-file.wav --model tiny.en
-   ```
-
-3. **Set Up Real-Time Transcription**:
-   Install additional Python libraries like `pyaudio` and script microphone processing via Whisper.
+With these steps complete, your PocketSphinx setup is ready for speech-to-text tasks.
