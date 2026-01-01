@@ -1,61 +1,51 @@
-# IMPLEMENTATION.md
+### Mozilla DeepSpeech Installation Instructions
 
-### PocketSphinx Installation Instructions
-
-Follow these steps to install and verify PocketSphinx on your system:
-
-1. **Enable the EPEL Repository**
-
-   For systems using `yum` (e.g., CentOS, RHEL):
+1. **Install Prerequisites**:
    ```bash
-   sudo yum install -y epel-release
+   sudo dnf install git python3 python3-pip
+   pip install deepspeech
    ```
 
-   For systems using `dnf` (e.g., Fedora):
+2. **Download Pre-Trained Models**:
    ```bash
-   sudo dnf install -y epel-release
+   wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm
+   wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
    ```
 
-2. **Install PocketSphinx**
-
-   Install PocketSphinx and its dependencies:
+3. **Verify Installation**:
+   Run `deepspeech` help to confirm installation:
    ```bash
-   sudo yum install -y pocketsphinx sphinxbase python3-pocketsphinx
+   deepspeech --help
    ```
 
-   Or, for `dnf`:
+4. **Test Speech-to-Text Processing**:
    ```bash
-   sudo dnf install -y pocketsphinx sphinxbase python3-pocketsphinx
+   deepspeech --model deepspeech-0.9.3-models.pbmm \
+              --scorer deepspeech-0.9.3-models.scorer \
+              --audio my-audio-file.wav
+   ```
+   Replace `my-audio-file.wav` with your audio file.
+
+5. **Set Up Microphone Input**:
+   Install `pyaudio`:
+   ```bash
+   pip install pyaudio
    ```
 
-3. **Verify the Installation**
+---
 
-   Check if PocketSphinx was installed correctly by running:
+### OpenAI Whisper Installation Instructions
+
+1. **Install Whisper Package**:
    ```bash
-   pocketsphinx_continuous -inmic yes
+   pip install openai-whisper
    ```
-   If you see PocketSphinx initializing and starting, the installation was successful.
 
-4. **Test Real-time Microphone Input**
-
-   Run the following command to test real-time speech-to-text using your microphone:
+2. **Test Speech-to-Text**:
+   Use its Python interface or CLI:
    ```bash
-   pocketsphinx_continuous -inmic yes
+   whisper audio-file.wav --model tiny.en
    ```
-   Speak into your microphone and observe the speech-to-text conversion output in the terminal.
 
-5. **Troubleshooting Audio Issues**
-
-   - Ensure your microphone is connected and working.
-   - Check if the microphone is recognized by the system using:
-     ```bash
-     arecord -l
-     ```
-   - If you are facing permission issues, you can run the command as `root` or configure your user for audio device access.
-   - Adjust the input device if necessary by specifying it with `-inmicdev`.
-     ```bash
-     pocketsphinx_continuous -inmic yes -inmicdev <device_number>
-     ```
-   Replace `<device_number>` with the appropriate device ID obtained from `arecord -l`.
-
-If you encounter further issues, please consult the [PocketSphinx Documentation](https://github.com/cmusphinx/pocketsphinx) or seek support from the community.
+3. **Set Up Real-Time Transcription**:
+   Install additional Python libraries like `pyaudio` and script microphone processing via Whisper.
