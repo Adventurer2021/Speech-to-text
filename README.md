@@ -1,2 +1,2 @@
 # Speech-to-text
-A proje.\nCt to enable speech to text on an almalinux v20 system
+A project to enable speech to text on an almalinux v10 system
