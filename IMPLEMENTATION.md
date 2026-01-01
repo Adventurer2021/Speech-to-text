@@ -11,9 +11,27 @@ PocketSphinx is a lightweight speech recognition engine that supports various la
    ```bash
    pip install pocketsphinx
    ```
+
 3. **Setting up the Acoustic Model**:
    - Download language model and dictionary suitable for your needs.
    - These can be specified during runtime in your code or scripts.
+   - **Detailed Steps**:
+     - **Download Pre-trained Models**:
+       Visit [CMUSphinx Downloads](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/) to download.
+     - **Install the Models**:
+       Extract the downloaded files to a directory, such as `/usr/local/share/pocketsphinx/model`.
+       Example:
+       ```bash
+       mkdir -p ~/pocketsphinx/models
+       cp -r <downloaded-files> ~/pocketsphinx/models/
+       ```
+     - **Verify the Models**:
+       ```bash
+       pocketsphinx_continuous -hmm ~/pocketsphinx/models/en-us -lm ~/pocketsphinx/models/en-us.lm.bin -dict ~/pocketsphinx/models/cmudict-en-us.dict -inmic yes
+       ```
+       Speak into your microphone to test the recognition.
+     - **Custom Models** (Optional):
+       Use CMU tools to create custom `.lm` and `.dict`. Refer to [CMU LM Toolkit](https://cmusphinx.github.io/wiki/tutoriallm/).
 
 ## xdotool Setup
 `xdotool` is a command-line tool used to simulate keyboard input and mouse activity. This can be useful to process speech commands to control your machine.
